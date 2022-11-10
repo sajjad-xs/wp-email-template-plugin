@@ -15,12 +15,14 @@ Text Domain: email-template-plugin
 */
 
 // If this file is called firectly, abort!!
-defined( 'ABSPATH' ) or die('You cannot access this resource.');
+defined('ABSPATH') or die('You cannot access this resource.');
 
 
 class EmailTemplate
 {
     public $template_types = array();
+
+
     public function __construct()
     {
         $this->template_types = array(
@@ -41,7 +43,7 @@ class EmailTemplate
         );
         /**
          * Actions. 
-        */
+         */
         add_action('init', array($this, 'cpt_email_template'), 0);
         add_action("add_meta_boxes", array($this, 'add_email_template_metabox'));
         add_action('save_post', array($this, 'save_email_template_metabox'));
@@ -49,7 +51,7 @@ class EmailTemplate
 
     /**
      *  Register Custom Post Type - Email Template
-    */
+     */
     public function cpt_email_template()
     {
         $labels = array(
@@ -61,10 +63,10 @@ class EmailTemplate
             'attributes'            => __('Item Attributes', 'email-template-plugin'),
             'parent_item_colon'     => __('Parent Item:', 'email-template-plugin'),
             'all_items'             => __('All Items', 'email-template-plugin'),
-            'add_new_item'          => __('Add New Item', 'email-template-plugin'),
+            'add_new_item'          => __('Add New Email Template', 'email-template-plugin'),
             'add_new'               => __('Add New', 'email-template-plugin'),
             'new_item'              => __('New Item', 'email-template-plugin'),
-            'edit_item'             => __('Edit Item', 'email-template-plugin'),
+            'edit_item'             => __('Edit Email Template', 'email-template-plugin'),
             'update_item'           => __('Update Item', 'email-template-plugin'),
             'view_item'             => __('View Item', 'email-template-plugin'),
             'view_items'            => __('View Items', 'email-template-plugin'),
@@ -113,7 +115,7 @@ class EmailTemplate
             <br>
             <br>
             <textarea rows="10" cols="50" name="email-template-html" style="width:100% !important;">
-            <?= get_post_meta($object->ID, "email_template_html", true); ?>
+            <?= get_post_meta($object->ID, "email_template_html", true) ?>
         </textarea>
 
             <br>
@@ -157,19 +159,21 @@ class EmailTemplate
     public function save_email_template_metabox()
     {
         global $post;
-        //check template html value exists or not
-        if (isset($_POST["email-template-html"])) :
-            update_post_meta($post->ID, 'email_template_html', $_POST["email-template-html"]);
-        endif;
-        //check template type value exists or not
-        if (isset($_POST["email-template-type"])) :
-            update_post_meta($post->ID, 'email_template_type', $_POST["email-template-type"]);
-        endif;
-        //check template status active or inactive checked or not
-        if (isset($_POST["email-template-status"])) {
-            update_post_meta($post->ID, 'email_template_status', 1);
-        } else {
-            update_post_meta($post->ID, 'email_template_status', 0);
+        if (isset($post->ID)) {
+            //check template html value exists or not
+            if (isset($_POST["email-template-html"])) :
+                update_post_meta($post->ID, 'email_template_html', $_POST["email-template-html"]);
+            endif;
+            //check template type value exists or not
+            if (isset($_POST["email-template-type"])) :
+                update_post_meta($post->ID, 'email_template_type', $_POST["email-template-type"]);
+            endif;
+            //check template status active or inactive checked or not
+            if (isset($_POST["email-template-status"])) {
+                update_post_meta($post->ID, 'email_template_status', 1);
+            } else {
+                update_post_meta($post->ID, 'email_template_status', 0);
+            }
         }
     }
 }
