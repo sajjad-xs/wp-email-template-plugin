@@ -1,0 +1,16 @@
+{
+    "name": "xpeedstudio/wp-emailkit-plugin",
+    "description": "Email Template Kit is an customize email template builder for various plugin",
+    "autoload": {
+        "psr-4": {
+            "WPEmailKit\\": "./src"
+        }
+    },
+    "authors": [
+        {
+            "name": "sajjad-xs",
+            "email": "sajjad@xpeedstudio.com"
+        }
+    ],
+    "require": {}
+}

@@ -1,12 +1,14 @@
 <?php
 /**
- * @package EmailTemplatePlugin
+ * @package WPEmailKitPlugin
  */
+namespace WPEmailKit;
 
-require_once 'EmailTemplateCPT.php';
-require_once 'CustomMetabox.php';
+use WPEmailKit\WPEmailKitCPT;
+use WPEmailKit\WPEmailKitMetabox;
 
-class Init
+
+class WPEmailKitInit
 {
 
     /**
@@ -15,8 +17,8 @@ class Init
     public static function get_services()
     {
         return [
-            EmailTemplateCPT::class,
-            CustomMetabox::class
+            WPEmailKitCPT::class,
+            WPEmailKitMetabox::class
         ];
     }
 

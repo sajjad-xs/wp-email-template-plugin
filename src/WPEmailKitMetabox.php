@@ -1,13 +1,15 @@
 <?php
 
 /**
- * @package EmailTemplatePlugin
+ * @package WPEmailKitPlugin
  */
-class CustomMetabox
+
+namespace WPEmailKit;
+
+
+class WPEmailKitMetabox
 {
-
     public $template_types = array();
-
 
     public function __construct()
     {
@@ -27,47 +29,46 @@ class CustomMetabox
             "new_user_register" => "New User Register",
             "delete_user" => "Delete User"
         );
-        add_action("add_meta_boxes", array($this, 'add_email_template_metabox'));
-        add_action('save_post', array($this, 'save_email_template_metabox'));
+        add_action("add_meta_boxes", array($this, 'wp_emailkit_add_metabox'));
+        add_action('save_post', array($this, 'wp_emailkit_save_metabox'));
     }
 
+    /**
+     * Add a new Metabox - email-template-metabox
+     * call add_meta_box() function
+     * add_meta_box( string $id, string $title, callable $callback, string|array|WP_Screen $screen = null, string $context = 'advanced', string $priority = 'default', array $callback_args = null )
+     */
 
-    /*
-        Add a new Metabox - email-template-metabox
-        call add_meta_box() function
-        add_meta_box( string $id, string $title, callable $callback, string|array|WP_Screen $screen = null, string $context = 'advanced', string $priority = 'default', array $callback_args = null )
-    */
-
-    public function add_email_template_metabox()
+    public function wp_emailkit_add_metabox()
     {
-        add_meta_box("email-template-metabox", "Email Template Meta Box", array($this, 'metabox_fields'), ["email-template"], "advanced", "high", null);
+        add_meta_box("wp-emailkit-metabox", "WP Email Kit Metabox", array($this, 'wp_emailkit_metabox_fields'), ["wp-emailkit"], "advanced", "high", null);
     }
 
 
     // Metabox fields
-    public function metabox_fields($object)
+    public function wp_emailkit_metabox_fields($object)
     {
         wp_nonce_field(basename(__FILE__), "meta-box-nonce");
 
 ?>
         <div style="margin-top:20px;">
-            <label for="email-template-html" style="font-weight:bold">Email Template HTML</label>
+            <label for="wp-emailkit-template-html" style="font-weight:bold">Template HTML</label>
             <br>
             <br>
-            <textarea rows="10" cols="50" name="email-template-html" style="width:100% !important;">
-            <?= get_post_meta($object->ID, "email_template_html", true) ?>
+            <textarea rows="10" cols="50" name="wp-emailkit-template-html" style="width:100% !important;">
+            <?= get_post_meta($object->ID, "wp_emailkit__template_html", true) ?>
         </textarea>
 
             <br>
             <br>
-            <label for="email-template-type">Email Template Types</label>
+            <label for="wp-emailkit-template-type">Template Types</label>
             <br>
             <br>
-            <select name="email-template-type" style="width:100% !important;">
+            <select name="wp-emailkit-template-type" style="width:100% !important;">
                 <?php
                 foreach ($this->template_types as $key => $template_type) {
                 ?>
-                    <option value="<?= $key; ?>" <?= $key == get_post_meta($object->ID, "email_template_type", true) ? 'selected' : '' ?>><?php echo $template_type; ?></option>
+                    <option value="<?= $key; ?>" <?= $key == get_post_meta($object->ID, "wp_emailkit__template_type", true) ? 'selected' : '' ?>><?php echo $template_type; ?></option>
                 <?php
                 }
                 ?>
@@ -75,16 +76,16 @@ class CustomMetabox
             <br>
             <br>
 
-            <label for="email-template-status">Status(Active/Inactive): </label>
+            <label for="wp-emailkit-template-status">Template Status(Active/Inactive): </label>
             <?php
-            $status = get_post_meta($object->ID, "email_template_status", true);
+            $status = get_post_meta($object->ID, "wp_emailkit_template_status", true);
             if ($status == 1) {
             ?>
-                <input name="email-template-status" type="checkbox" checked>
+                <input name="wp-emailkit-template-status" type="checkbox" checked>
             <?php
             } else {
             ?>
-                <input name="email-template-status" type="checkbox">
+                <input name="wp-emailkit-template-status" type="checkbox">
             <?php
             }
             ?>
@@ -96,7 +97,7 @@ class CustomMetabox
     /*
         metabox fields value is store while the trigger on save draft/publish post
     */
-    public function save_email_template_metabox()
+    public function wp_emailkit_save_metabox()
     {
         global $post;
 
@@ -104,7 +105,7 @@ class CustomMetabox
 
             //check template html value exists or not
             if (isset($_POST["email-template-html"])) :
-                update_post_meta($post->ID, 'email_template_html', $_POST["email-template-html"]);
+                update_post_meta($post->ID, 'email_template_html',  m);
             endif;
 
             //check template type value exists or not
