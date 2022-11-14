@@ -12,7 +12,7 @@ Author: Sajjad
 Version: 1.0.0
 Author URI: http://github.com/sajjad-xs/wp-email-template-plugin
 License: GPLv2 or later
-Text Domain: email-template-plugin
+Text Domain: wp-emailkit-plugin
 */
 
 // If this file is called directly, abort!!
@@ -36,14 +36,14 @@ if (class_exists('WPEmailKit\\WPEmailKitInit')) {
 /**
  * The code that runs during plugin activation
  */
-function activate_shsorad_plugin()
+function wp_emailkit_activate_plugin()
 {
     // Activate::activate();
 }
 /**
  * The code that runs during plugin deactivation
  */
-function deactivate_shsorad_plugin()
+function wp_emailkit_deactivate_plugin()
 {
     // Deactivate::deactivate();
 }

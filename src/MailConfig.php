@@ -1,5 +1,12 @@
 <?php
 
+namespace WPEmailKit;
+
+
+/**
+ * @package  WPEmailKitPlugin
+ */
+
 class MailConfig
 {
     public $mailer;

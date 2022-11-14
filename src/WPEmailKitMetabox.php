@@ -1,11 +1,13 @@
 <?php
 
+namespace WPEmailKit;
+
+use WPEmailKit\Helpers\WPEmailKitUtils;
+use WPEmailKit\Helpers\WPEmailTemplateTypes;
+
 /**
  * @package WPEmailKitPlugin
  */
-
-namespace WPEmailKit;
-
 
 class WPEmailKitMetabox
 {
@@ -13,22 +15,7 @@ class WPEmailKitMetabox
 
     public function __construct()
     {
-        $this->template_types = array(
-            "wc_admin_new_order" => "Woocommerce New Order",
-            "wc_cancelled_order" => "Woocommerce Completed Order",
-            "wc_failed_order" => "Woocommerce Failed Order",
-            "wc_order_on_hold" => "Woocommerce Order On Hold",
-            "wc_processing_order" => "Woocommerce Processing Order",
-            "wc_completed_order" => "Woocommerce Completed Order",
-            "wc_refunded_order" => "Woocommerce Refunded Order",
-            "wc_customer_invoice_or_order_details" => "Woocommerce Customer Invoice or Order Details",
-            "wc_customer_note" => "Woocommerce Customer Note",
-            "wc_reset_password" => "Woocommerce Reset Password",
-            "wc_new_account" => "Woocommerce New Account",
-            "password_change" => "Password Change",
-            "new_user_register" => "New User Register",
-            "delete_user" => "Delete User"
-        );
+        $this->template_types = WPEmailTemplateTypes::types();
         add_action("add_meta_boxes", array($this, 'wp_emailkit_add_metabox'));
         add_action('save_post', array($this, 'wp_emailkit_save_metabox'));
     }
@@ -48,7 +35,7 @@ class WPEmailKitMetabox
     // Metabox fields
     public function wp_emailkit_metabox_fields($object)
     {
-        wp_nonce_field(basename(__FILE__), "meta-box-nonce");
+        wp_nonce_field(basename(__FILE__), "meta_box_nonce");
 
 ?>
         <div style="margin-top:20px;">
@@ -56,7 +43,7 @@ class WPEmailKitMetabox
             <br>
             <br>
             <textarea rows="10" cols="50" name="wp-emailkit-template-html" style="width:100% !important;">
-            <?= get_post_meta($object->ID, "wp_emailkit__template_html", true) ?>
+            <?= get_post_meta($object->ID, "wp_emailkit_template_html", true) ?>
         </textarea>
 
             <br>
@@ -68,7 +55,7 @@ class WPEmailKitMetabox
                 <?php
                 foreach ($this->template_types as $key => $template_type) {
                 ?>
-                    <option value="<?= $key; ?>" <?= $key == get_post_meta($object->ID, "wp_emailkit__template_type", true) ? 'selected' : '' ?>><?php echo $template_type; ?></option>
+                    <option value="<?= $key; ?>" <?= $key == get_post_meta($object->ID, "wp_emailkit_template_type", true) ? 'selected' : '' ?>><?php echo $template_type; ?></option>
                 <?php
                 }
                 ?>
@@ -101,24 +88,46 @@ class WPEmailKitMetabox
     {
         global $post;
 
+        if (!$this->check_metabox_nonce()) {
+            return;
+        }
+        /**
+         * check post ID is not null
+         */
         if (isset($post->ID)) {
-
             //check template html value exists or not
-            if (isset($_POST["email-template-html"])) :
-                update_post_meta($post->ID, 'email_template_html',  m);
+            if (isset($_POST["wp-emailkit-template-html"])) :
+                $email_template_html = WPEmailKitUtils::kses($_POST["wp-emailkit-template-html"]);
+                update_post_meta($post->ID, 'wp_emailkit_template_html', $email_template_html);
             endif;
 
             //check template type value exists or not
-            if (isset($_POST["email-template-type"])) :
-                update_post_meta($post->ID, 'email_template_type', $_POST["email-template-type"]);
+            if (isset($_POST["wp-emailkit-template-type"])) :
+                $email_template_type = sanitize_text_field($_POST["wp-emailkit-template-type"]);
+                update_post_meta($post->ID, 'wp_emailkit_template_type', $email_template_type);
             endif;
 
             //check template status active or inactive checked or not
-            if (isset($_POST["email-template-status"])) {
-                update_post_meta($post->ID, 'email_template_status', 1);
+            if (isset($_POST["wp-emailkit-template-status"])) {
+                update_post_meta($post->ID, 'wp_emailkit_template_status', 1);
             } else {
-                update_post_meta($post->ID, 'email_template_status', 0);
+                update_post_meta($post->ID, 'wp_emailkit_template_status', 0);
             }
         }
+    }
+
+    /**
+     * Nonce validation checking
+     */
+    public function check_metabox_nonce()
+    {
+        $is_valid_nonce = (isset($_POST['meta_box_nonce'])
+            &&
+            wp_verify_nonce($_POST['meta_box_nonce'], basename(__FILE__))) ? true : false;
+
+        if (!$is_valid_nonce) {
+            return false;
+        }
+        return true;
     }
 }

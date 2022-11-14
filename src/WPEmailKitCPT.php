@@ -43,7 +43,7 @@ class WPEmailKitCPT
             'filter_items_list'     => __('Filter items list', 'wp-emailkit'),
         );
         $args = array(
-            'label'                 => __('WP EmailKit Template', 'wp-emailkit'),
+            'label'                 => __('WP EmailKit', 'wp-emailkit'),
             'description'           => __('Post Type Description', 'wp-emailkit'),
             'labels'                => $labels,
             'supports'              => array('title'),

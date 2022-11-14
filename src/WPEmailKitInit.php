@@ -1,7 +1,9 @@
 <?php
+
 /**
  * @package WPEmailKitPlugin
  */
+
 namespace WPEmailKit;
 
 use WPEmailKit\WPEmailKitCPT;
@@ -17,6 +19,7 @@ class WPEmailKitInit
     public static function get_services()
     {
         return [
+            WPEmailDependencyCheck::class,
             WPEmailKitCPT::class,
             WPEmailKitMetabox::class
         ];
