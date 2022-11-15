@@ -6,7 +6,7 @@
 
 namespace WPEmailKit;
 
-use WPEmailKit\CPT;
+use WPEmailKit\Cpt;
 use WPEmailKit\Metabox;
 
 
@@ -19,7 +19,7 @@ class Init
     {
         return [
             DependencyCheck::class,
-            CPT::class,
+            Cpt::class,
             Metabox::class
         ];
     }

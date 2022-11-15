@@ -6,7 +6,7 @@
 
 namespace WPEmailKit;
 
-class CPT
+class Cpt
 {
     public function __construct()
     {

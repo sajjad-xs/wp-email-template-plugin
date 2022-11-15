@@ -80,13 +80,13 @@ class Metabox
     */
     public function save()
     {
-        if (!is_user_logged_in() && !is_admin()) {
+        if (!is_user_logged_in() && !current_user_can('administrator')) {
             return;
         }
 
-        if (!$this->check_metabox_nonce()) {
-            return;
-        }
+        // if (!$this->check_metabox_nonce()) {
+        //     return;
+        // }
 
         global $post;
 
