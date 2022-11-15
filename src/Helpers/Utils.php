@@ -9,7 +9,7 @@ defined('ABSPATH') || exit;
  */
 
 
-class WPEmailKitUtils
+class Utils
 {
 
     public static function get_kses_array()

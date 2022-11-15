@@ -8,11 +8,11 @@ defined('ABSPATH') || exit;
  * @package  WPEmailKitPlugin
  */
 
-class WPEmailTemplateTypes
+class TemplateTypes
 {
-    public static function types()
+    public static function list()
     {
-        $types =  array(
+        return  array(
             "wc_admin_new_order"                        => "Woocommerce New Order",
             "wc_cancelled_order"                        => "Woocommerce Cancelled Order",
             "wc_failed_order"                           => "Woocommerce Failed Order",
@@ -28,6 +28,5 @@ class WPEmailTemplateTypes
             "new_user_register"                         => "New User Register",
             "delete_user"                               => "Delete User"
         );
-        return $types;
     }
 }

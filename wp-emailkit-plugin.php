@@ -28,22 +28,6 @@ if (file_exists(dirname(__FILE__) . '/vendor/autoload.php')) {
 /**
  * Initialize all the core classes of the plugin
  */
-if (class_exists('WPEmailKit\\WPEmailKitInit')) {
-    WPEmailKit\WPEmailKitInit::register_services();
-}
-
-
-/**
- * The code that runs during plugin activation
- */
-function wp_emailkit_activate_plugin()
-{
-    // Activate::activate();
-}
-/**
- * The code that runs during plugin deactivation
- */
-function wp_emailkit_deactivate_plugin()
-{
-    // Deactivate::deactivate();
+if (class_exists('WPEmailKit\\Init')) {
+    WPEmailKit\Init::register_services();
 }

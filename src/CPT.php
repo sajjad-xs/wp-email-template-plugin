@@ -1,21 +1,22 @@
 <?php
+
 /**
  * @package WPEmailKitPlugin
  */
 
 namespace WPEmailKit;
 
-
-class WPEmailKitCPT
+class CPT
 {
     public function __construct()
     {
-        //Actions
-        add_action('init', array($this, 'wp_emailkit_template_cpt'), 0);
+        add_action('init', array($this, 'register'), 0);
     }
 
-    // custom post type - wp-emailkit
-    public function wp_emailkit_template_cpt()
+    /**
+     *register custom post type -( wp-emailkit ) 
+     */
+    public function register()
     {
         $labels = array(
             'name'                  => _x('WP EmailKit', 'Post Type General Name', 'wp-emailkit'),
@@ -50,7 +51,7 @@ class WPEmailKitCPT
             'hierarchical'          => false,
             'public'                => true,
             'show_ui'               => true,
-            'show_in_menu'          => true,
+            'show_in_menu'           => true,
             'menu_position'         => 10,
             'show_in_admin_bar'      => true,
             'show_in_nav_menus'     => true,

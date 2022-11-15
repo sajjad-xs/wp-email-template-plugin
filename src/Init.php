@@ -6,22 +6,21 @@
 
 namespace WPEmailKit;
 
-use WPEmailKit\WPEmailKitCPT;
-use WPEmailKit\WPEmailKitMetabox;
+use WPEmailKit\CPT;
+use WPEmailKit\Metabox;
 
 
-class WPEmailKitInit
+class Init
 {
-
     /**
      * @return array classes array
      */
     public static function get_services()
     {
         return [
-            WPEmailDependencyCheck::class,
-            WPEmailKitCPT::class,
-            WPEmailKitMetabox::class
+            DependencyCheck::class,
+            CPT::class,
+            Metabox::class
         ];
     }
 

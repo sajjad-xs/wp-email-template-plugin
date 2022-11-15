@@ -1,30 +1,28 @@
 <?php
+namespace WPEmailKit;
 
 /**
  * @package WPEmailKitPlugin
  */
 
-namespace WPEmailKit;
-
-
-class WPEmailDependencyCheck
+class DependencyCheck
 {
     public $err_message;
 
-    public $wp_version_require = '5.0';
+    public $wp_version_require = '6.0';
 
-    public $wc_version_require = '5.0';
+    public $wc_version_require = '6.0';
 
-    public $php_version_require = '7.0';
+    public $php_version_require = '8.0';
 
 
     public function __construct()
     {
-        add_action('init', array($this, 'dependency_check'), 0);
+        add_action('init', array($this, 'check'), 0);
     }
 
 
-    public function dependency_check()
+    public function check()
     {
         global $wp_version;
 
