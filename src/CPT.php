@@ -6,13 +6,29 @@
 
 namespace WPEmailKit;
 
+use WPEmailKit\Helpers\Debug;
+
 class Cpt
 {
     public function __construct()
     {
+        add_action('init', array($this, 'addCapabilities'));
         add_action('init', array($this, 'register'), 0);
     }
 
+    public function addCapabilities()
+    {
+        $role = get_role('administrator');
+        $role->add_cap('publish_wp-emailkits',        true);
+        $role->add_cap('edit_wp-emailkits',           true);
+        $role->add_cap('edit_others_wp-emailkits',    true);
+        $role->add_cap('delete_wp-emailkits',         true);
+        $role->add_cap('delete_others_wp-emailkits',  true);
+        $role->add_cap('read_private_wp-emailkits',   true);
+        $role->add_cap('read_wp-emailkit',            true);
+        $role->add_cap('edit_wp-emailkit',            true);
+        $role->add_cap('read_wp-emailkit',            true);
+    }
     /**
      *register custom post type -( wp-emailkit ) 
      */
@@ -27,7 +43,7 @@ class Cpt
             'attributes'            => __('Item Attributes', 'wp-emailkit'),
             'parent_item_colon'     => __('Parent Item:', 'wp-emailkit'),
             'all_items'             => __('All Templates', 'wp-emailkit'),
-            'add_new_item'          => __('Add New WP Email Template', 'wp-emailkit'),
+            'add_new_item'          => __('Add New Template', 'wp-emailkit'),
             'add_new'               => __('Add New', 'wp-emailkit'),
             'new_item'              => __('New Item', 'wp-emailkit'),
             'edit_item'             => __('Edit WP EmailKit Template', 'wp-emailkit'),
@@ -59,7 +75,17 @@ class Cpt
             'has_archive'           => true,
             'exclude_from_search'   => false,
             'publicly_queryable'    => true,
-            'capability_type'       => 'page'
+            'capabilities' => array(
+                'publish_posts'         => 'publish_wp-emailkits',
+                'edit_posts'            => 'edit_wp-emailkits',
+                'edit_others_posts'     => 'edit_others_wp-emailkits',
+                'delete_posts'          => 'delete_wp-emailkits',
+                'delete_others_posts'   => 'delete_others_wp-emailkits',
+                'read_private_posts'    => 'read_private_wp-emailkits',
+                'edit_post'             => 'edit_wp-emailkits',
+                'delete_post'           => 'delete_wp-emailkit',
+                'read_post'             => 'read_wp-emailkit'
+            )
         );
         register_post_type('wp-emailkit', $args);
     }

@@ -8,6 +8,7 @@ namespace WPEmailKit;
 
 use WPEmailKit\Cpt;
 use WPEmailKit\Metabox;
+use WPEmailKit\MailConfig;
 
 
 class Init
@@ -17,7 +18,18 @@ class Init
      */
     public static function get_services()
     {
+        // //Hide admin bar for all users except administrators
+        // if (current_user_can('administrator')) {
+        //     new MailConfig();
+        //     new  DependencyCheck();
+        //     new Cpt();
+        //     new Metabox();
+        // } else {
+        //     // All other users can't view admin bar
+        //     new MailConfig();
+        // }
         return [
+            MailConfig::class,
             DependencyCheck::class,
             Cpt::class,
             Metabox::class
@@ -42,5 +54,16 @@ class Init
     {
         $service = new  $class();
         return $service;
+    }
+
+    public function isAuthorize()
+    {
+        //Hide admin bar for all users except administrators
+        if (current_user_can('administrator')) {
+            show_admin_bar(true);
+        } else {
+            // All other users can't view admin bar
+            show_admin_bar(false);
+        }
     }
 }
