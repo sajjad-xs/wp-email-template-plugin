@@ -6,8 +6,6 @@
 
 namespace WPEmailKit;
 
-use WPEmailKit\Helpers\Debug;
-
 class Cpt
 {
     public function __construct()
@@ -19,15 +17,17 @@ class Cpt
     public function addCapabilities()
     {
         $role = get_role('administrator');
-        $role->add_cap('publish_wp-emailkits',        true);
-        $role->add_cap('edit_wp-emailkits',           true);
-        $role->add_cap('edit_others_wp-emailkits',    true);
-        $role->add_cap('delete_wp-emailkits',         true);
-        $role->add_cap('delete_others_wp-emailkits',  true);
-        $role->add_cap('read_private_wp-emailkits',   true);
-        $role->add_cap('read_wp-emailkit',            true);
-        $role->add_cap('edit_wp-emailkit',            true);
-        $role->add_cap('read_wp-emailkit',            true);
+        if (isset($role)) {
+            $role->add_cap('publish_wp-emailkits',        true);
+            $role->add_cap('edit_wp-emailkits',           true);
+            $role->add_cap('edit_others_wp-emailkits',    true);
+            $role->add_cap('delete_wp-emailkits',         true);
+            $role->add_cap('delete_others_wp-emailkits',  true);
+            $role->add_cap('read_private_wp-emailkits',   true);
+            $role->add_cap('read_wp-emailkit',            true);
+            $role->add_cap('edit_wp-emailkit',            true);
+            $role->add_cap('read_wp-emailkit',            true);
+        }
     }
     /**
      *register custom post type -( wp-emailkit ) 
@@ -82,7 +82,7 @@ class Cpt
                 'delete_posts'          => 'delete_wp-emailkits',
                 'delete_others_posts'   => 'delete_others_wp-emailkits',
                 'read_private_posts'    => 'read_private_wp-emailkits',
-                'edit_post'             => 'edit_wp-emailkits',
+                'edit_post'             => 'edit_wp-emailkit',
                 'delete_post'           => 'delete_wp-emailkit',
                 'read_post'             => 'read_wp-emailkit'
             )

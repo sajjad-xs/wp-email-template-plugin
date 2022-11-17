@@ -108,7 +108,7 @@ class Metabox
             //check template status active or inactive checked or not
             if (isset($_POST["wp_emailkit_template_status"])) {
                 $type = $_POST["wp_emailkit_template_type"];
-                $this->deactivateOthers($type);
+                $this->deactivateTemplateTypes($type);
                 update_post_meta($post->ID, 'wp_emailkit_template_status', 1);
             } else {
                 update_post_meta($post->ID, 'wp_emailkit_template_status', 0);
@@ -116,13 +116,13 @@ class Metabox
         }
     }
 
-    public function deactivateOthers($type)
+    public function deactivateTemplateTypes($type)
     {
-        
-        $data = array(
-            'post_type' => 'wp-emailkit', 
+
+        $query = array(
+            'post_type' => 'wp-emailkit',
             'meta_query' => array(
-                 array(
+                array(
                     'key' => 'wp_emailkit_template_type',
                     'value' => $type,
                     'compare' => '=',
@@ -136,21 +136,15 @@ class Metabox
                 'fields' => 'ids'
             )
         );
-       
-        $postData = new \WP_Query($data);
-        $postIds = wp_list_pluck($postData->posts, 'ID' );
-        foreach($postIds as $id) {
-            update_post_meta($id, 'wp_emailkit_template_status', 0);
+
+        $data = new \WP_Query($query);
+        if (isset($data)) {
+            $postsIds = wp_list_pluck($data->posts, 'ID');
+            foreach ($postsIds as $id) {
+                update_post_meta($id, 'wp_emailkit_template_status', 0);
+            }
+            Debug::log($postsIds);
         }
-        Debug::log($postIds);
-        // update_post_meta($post->ID, 'active_option', true);
-        // global $wpdb;
-        // $wpdb->query("UPDATE $wpdb->postmeta 
-        //                 set `meta_value` = 0 
-        //                 where `meta_key` = 'wp_emailkit_template_status'
-        //                 and `post_id` 
-        //                 in (select wp_postmeta.`post_id` from wp_postmeta 
-        //                     where `meta_value` = '$type')");
     }
 
     /**

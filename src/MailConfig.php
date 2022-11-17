@@ -39,7 +39,29 @@ class MailConfig
 
     public function newUserMail($wp_new_user_notification_email, $user, $blogname)
     {
-        $mypost = array(
+        $data = $this->getPostMeta();
+        if ($data) {
+            $postMeta = get_post_meta($data->post->ID,  "wp_emailkit_template_html", true);
+
+            $search = ["{{first_name}}", "{{email}}", "{{password}}"];
+            $replace   = [$user->data->display_name, $user->data->user_email, $user->data->user_pass];
+            $message = str_replace($search, $replace, $postMeta);
+
+            $wp_new_user_notification_email['message'] = $message;
+            $wp_new_user_notification_email['headers'] = array(
+                'From: XpeedStudio<example@xpeedstudio.com>',
+                'Content-Type: text/html; charset=UTF-8'
+            );
+        }
+
+        return $wp_new_user_notification_email;
+    }
+    /**
+     * @return object|null
+     */
+    public function getPostMeta()
+    {
+        $query = array(
             'post_type' => 'wp-emailkit',
             'posts_per_page' => 1,
             'meta_query' => array(
@@ -56,17 +78,6 @@ class MailConfig
                 'relation' => 'AND'
             )
         );
-        $postData = new \WP_Query($mypost);
-        if ($postData) {
-            $postMeta = get_post_meta($postData->post->ID,  "wp_emailkit_template_html", true);
-            $message = $postMeta;
-            $wp_new_user_notification_email['message'] = $message;
-            $wp_new_user_notification_email['headers'] = array(
-                'From: XpeedStudio<example@xpeedstudio.com>',
-                'Content-Type: text/html; charset=UTF-8'
-            );
-        }
-
-        return $wp_new_user_notification_email;
+        return new \WP_Query($query);
     }
 }
