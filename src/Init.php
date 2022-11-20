@@ -7,6 +7,8 @@
 namespace WPEmailKit;
 
 use WPEmailKit\Cpt;
+use WPEmailKit\Emails\NewUserRegister;
+use WPEmailKit\Emails\WCNewOrder;
 use WPEmailKit\Metabox;
 use WPEmailKit\MailConfig;
 
@@ -32,7 +34,9 @@ class Init
             MailConfig::class,
             DependencyCheck::class,
             Cpt::class,
-            Metabox::class
+            Metabox::class,
+            WCNewOrder::class,
+            NewUserRegister::class
         ];
     }
 
