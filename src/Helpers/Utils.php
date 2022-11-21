@@ -18,6 +18,8 @@ class Utils
             'html'                          => array(),
             'head'                          => array(),
             'body'                          => array(),
+            'hr'                            => array(),
+            'address'                       => array(),
             'a'                             => array(
                 'class'  => array(),
                 'href'   => array(),
@@ -153,9 +155,25 @@ class Utils
             'br'                            => array(),
             'table'                         => array(),
             'thead'                         => array(),
-            'tbody'                         => array(),
+            'tbody'                         => array(
+                'width'       => array(),
+                'height'      => array(),
+                'scrolling'   => array(),
+                'frameborder' => array(),
+                'allow'       => array(),
+                'src'         => array(),
+                'style' => array()
+            ),
             'tfoot'                         => array(),
-            'tr'                            => array(),
+            'tr'                            => array(
+                'width'       => array(),
+                'height'      => array(),
+                'scrolling'   => array(),
+                'frameborder' => array(),
+                'allow'       => array(),
+                'src'         => array(),
+                'style' => array()
+            ),
             'th'                            => array(),
             'td'                            => array(),
             'colgroup'                      => array(),

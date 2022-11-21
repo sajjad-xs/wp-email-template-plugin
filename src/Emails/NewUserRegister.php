@@ -2,13 +2,16 @@
 
 namespace WPEmailKit\Emails;
 
+use WPEmailKit\Emails\MailConfig;
+
+
 defined('ABSPATH') || exit;
 
 /**
  * @package  WPEmailKitPlugin
  */
 
-class NewUserRegister
+class NewUserRegister extends MailConfig
 {
     public function __construct()
     {
@@ -23,7 +26,7 @@ class NewUserRegister
 
     public function newUserMail($wp_new_user_notification_email, $user, $blogname)
     {
-        $data = $this->getPostMeta();
+        $data = $this->getPostMeta('new_user_register');
         if ($data) {
             $postMeta = get_post_meta($data->post->ID,  "wp_emailkit_template_html", true);
 
@@ -37,31 +40,6 @@ class NewUserRegister
                 'Content-Type: text/html; charset=UTF-8'
             );
         }
-
         return $wp_new_user_notification_email;
-    }
-    /**
-     * @return object|null
-     */
-    public function getPostMeta()
-    {
-        $query = array(
-            'post_type' => 'wp-emailkit',
-            'posts_per_page' => 1,
-            'meta_query' => array(
-                array(
-                    'key' => 'wp_emailkit_template_type',
-                    'value' => 'new_user_register',
-                    'compare' => '=',
-                ),
-                array(
-                    'key' => 'wp_emailkit_template_status',
-                    'value' => 1,
-                    'compare' => 'exp_eq',
-                ),
-                'relation' => 'AND'
-            )
-        );
-        return new \WP_Query($query);
     }
 }
