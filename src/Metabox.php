@@ -43,7 +43,6 @@ class Metabox
             <br>
             <br>
             <textarea id="template-html" rows="10" cols="50" name="wp_emailkit_template_html" style="width:100% !important;"><?php esc_html_e(get_post_meta($object->ID, "wp_emailkit_template_html", true)) ?></textarea>
-
             <br>
             <br>
             <label for="template-type" style="font-weight:bold">Template Types</label>
@@ -62,12 +61,18 @@ class Metabox
             </select>
             <br>
             <br>
+            <label for="template-html" style="font-weight:bold">Template Email Subject</label>
+            <br>
+            <input type="text" name="wp_emailkit_email_subject" value="<?php echo esc_html(get_post_meta($object->ID, "wp_emailkit_email_subject", true)) ?>" style="width:100% !important;" required>
+
+            <br>
+            <br>
             <label for="template-status" style="font-weight:bold">Template Status(Active/Inactive): </label>
             <?php
             $status = esc_html(get_post_meta($object->ID, "wp_emailkit_template_status", true));
             ?>
             <input id="template-status" name="wp_emailkit_template_status" type="checkbox" style="margin-left: 10px; margin-top:4px;" <?php echo $status == true ? 'checked' : '' ?>>
-
+            <br>
         </div>
 <?php
         wp_nonce_field(basename(__FILE__), "meta_box_nonce");
@@ -103,6 +108,12 @@ class Metabox
                 if (isset($this->template_types[$template_type])) :
                     update_post_meta($post->ID, 'wp_emailkit_template_type', $template_type);
                 endif;
+            endif;
+
+             //check template email subject value exists or not and update email subject
+             if (isset($_POST["wp_emailkit_email_subject"])) :
+                $emailSubject = Utils::kses($_POST["wp_emailkit_email_subject"]);
+                update_post_meta($post->ID, 'wp_emailkit_email_subject', $emailSubject);
             endif;
 
             //check template status active or inactive checked or not
