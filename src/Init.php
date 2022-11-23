@@ -21,8 +21,8 @@ class Init
     public static function get_services()
     {
         return [
-            MailConfig::class,
             DependencyCheck::class,
+            MailConfig::class,
             Cpt::class,
             Metabox::class,
             WCNewOrder::class,

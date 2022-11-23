@@ -26,31 +26,31 @@ class DependencyCheck
     {
         global $wp_version;
 
-        // if (version_compare($this->wp_version_require, $wp_version, '>')) {
-        //     $this->err_message = __('Please upgrade WordPress version to', 'wp-emailkit-plugin') . ' ' . $this->wp_version_require;
+        if (version_compare($this->wp_version_require, $wp_version, '>')) {
+            $this->err_message = __('Please upgrade WordPress version to', 'wp-emailkit-plugin') . ' ' . $this->wp_version_require;
 
-        //     return;
-        // }
+            return;
+        }
 
-        // if (version_compare($this->php_version_require, phpversion(), '>')) {
-        //     $this->err_message = __('Please upgrade php version to', 'wp-emailkit-plugin') . ' ' . $this->php_version_require;
+        if (version_compare($this->php_version_require, phpversion(), '>')) {
+            $this->err_message = __('Please upgrade php version to', 'wp-emailkit-plugin') . ' ' . $this->php_version_require;
 
-        //     return;
-        // }
+            return;
+        }
 
-        // if (!is_plugin_active('woocommerce/woocommerce.php')) {
-        //     $this->err_message = __('Please install and activate WooCommerce to use', 'wp-emailkit-plugin');
-        //     unset($_GET['activate']);  // phpcs:ignore WordPress.Security.NonceVerification
-        //     deactivate_plugins(plugin_basename(__FILE__));
+        if (!is_plugin_active('woocommerce/woocommerce.php')) {
+            $this->err_message = __('Please install and activate WooCommerce to use', 'wp-emailkit-plugin');
+            unset($_GET['activate']);  // phpcs:ignore WordPress.Security.NonceVerification
+            deactivate_plugins(plugin_basename(__FILE__));
 
-        //     return;
-        // }
+            return;
+        }
 
-        // $wc_version = get_option('woocommerce_version');
-        // if (version_compare($this->wc_version_require, $wc_version, '>')) {
-        //     $this->err_message = __('Please upgrade WooCommerce version to', 'wp-emailkit-plugin') . ' ' . $this->wc_version_require;
+        $wc_version = get_option('woocommerce_version');
+        if (version_compare($this->wc_version_require, $wc_version, '>')) {
+            $this->err_message = __('Please upgrade WooCommerce version to', 'wp-emailkit-plugin') . ' ' . $this->wc_version_require;
 
-        //     return;
-        // }
+            return;
+        }
     }
 }

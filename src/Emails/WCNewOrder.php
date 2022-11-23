@@ -2,8 +2,6 @@
 
 namespace WPEmailKit\Emails;
 
-use DOMDocument;
-use DOMXPath;
 use WPEmailKit\Helpers\Debug;
 use WPEmailKit\Emails\MailConfig;
 
